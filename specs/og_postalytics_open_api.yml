@@ -1,0 +1,468 @@
+openapi: 3.0.0
+info:
+  title: Postalytics Integration
+  version: 0.1.0
+servers:
+  - url: https://api.postalytics.com/
+  - url: https://api-sandbox.postalytics.com/
+
+
+paths:
+  /account:
+    post:
+      summary: Create Account
+      tags:
+        - Account API
+      security:
+        - basic: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                email_address:
+                  type: string
+                company:
+                  type: string
+                phone:
+                  type: string
+                address_street:
+                  type: string
+                address_city:
+                  type: string
+                address_state:
+                  type: string
+                address_zip:
+                  type: string
+              required:
+                - username
+                - password
+                - first_name
+                - last_name
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account_id:
+                    type: string
+                  api_key:
+                    type: string
+                  created_date:
+                    type: string
+  /account/{accountId}:
+    get:
+      summary: Get Account
+      tags:
+        - Account API
+      security:
+        - basic: []
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: ID of the account
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  api_key:
+                    type: string
+                  username:
+                    type: string
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  email_address:
+                    type: string
+                  company:
+                    type: string
+                  phone:
+                    type: string
+                  address_street:
+                    type: string
+                  address_city:
+                    type: string
+                  address_state:
+                    type: string
+                  address_zip:
+                    type: string
+                  parent_id:
+                    type: string
+                  created_date:
+                    type: string
+    put:
+      summary: Update Account
+      tags:
+        - Account API
+      security:
+        - basic: []
+      parameters:
+      - in: path
+        name: accountId
+        schema:
+          type: integer
+        required: true
+        description: ID of the account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account_id:
+                    type: string
+                  updated_date:
+                    type: string
+    delete:
+      summary: Update Account
+      tags:
+        - Account API
+      security:
+        - basic: []
+      parameters:
+      - in: path
+        name: accountId
+        schema:
+          type: integer
+        required: true
+        description: ID of the account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account_id:
+                    type: string
+                  deleted_date:
+                    type: string
+                    
+  /contacts:
+    get:
+      summary: Get all contact lists
+      tags:
+        - Contact API
+      security:
+        - basic: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contact_list_id:
+                      type: string
+                    name:
+                      type: string
+                    count:
+                      type: string
+                    created_date:
+                      type: string
+    post:
+      summary: Add A Contact To Contact List
+      tags: 
+        - Contact API
+      security:
+        - basic: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contact_list_id:
+                  type: integer
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                company:
+                  type: string
+                phone:
+                  type: string
+                address_street:
+                  type: string
+                address_street2:
+                  type: string
+                address_city:
+                  type: string
+                address_state:
+                  type: string
+                address_zip:
+                  type: string
+                email_address:
+                  type: string
+                var_field_1:
+                  type: string
+                var_field_2:
+                  type: string
+                var_field_3:
+                  type: string
+                var_field_4:
+                  type: string
+                var_field_5:
+                  type: string
+                var_field_6:
+                  type: string
+                var_field_7:
+                  type: string
+                var_field_8:
+                  type: string
+                var_field_9:
+                  type: string
+                var_field_10:
+                  type: string
+              required:
+                - contact_list_id
+                - first_name
+                - last_name
+                - address_street
+                - address_street2
+                - address_city
+                - address_state
+                - address_zip
+                
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  created_date:
+                    type: string
+            
+  /contacts/{id}:
+    get:
+      summary: Get All Contacts On A List
+      tags:
+        - Contact API
+      security:
+        - basic: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: ID of the account
+      - in: query
+        name: start
+        schema:
+          type: integer
+        description: The row to start getting records at
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: The number of rows to retrieve. Value can be from 1 to 100
+        
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    row:
+                      type: string
+                    contact_id:
+                      type: string
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    company:
+                      type: string
+                    phone:
+                      type: string
+                    address_street:
+                      type: string
+                    address_street2:
+                      type: string
+                    address_city:
+                      type: string
+                    address_state:
+                      type: string
+                    address_zip:
+                      type: string
+                    email_address:
+                      type: string
+                    var_field_1:
+                      type: string
+                    var_field_2:
+                      type: string
+                    var_field_3:
+                      type: string
+                    var_field_4:
+                      type: string
+                    var_field_5:
+                      type: string
+                    var_field_6:
+                      type: string
+                    var_field_7:
+                      type: string
+                    var_field_8:
+                      type: string
+                    var_field_9:
+                      type: string
+                    var_field_10:
+                      type: string
+    put:
+      summary: Update Contact
+      tags:
+        - Contact API
+      security:
+        - basic: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: ID of the account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contact_id:
+                  type: integer
+                contact_list_id:
+                  type: integer
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                company:
+                  type: string
+                phone:
+                  type: string
+                address_street:
+                  type: string
+                address_street2:
+                  type: string
+                address_city:
+                  type: string
+                address_state:
+                  type: string
+                address_zip:
+                  type: string
+                email_address:
+                  type: string
+                var_field_1:
+                  type: string
+                var_field_2:
+                  type: string
+                var_field_3:
+                  type: string
+                var_field_4:
+                  type: string
+                var_field_5:
+                  type: string
+                var_field_6:
+                  type: string
+                var_field_7:
+                  type: string
+                var_field_8:
+                  type: string
+                var_field_9:
+                  type: string
+                var_field_10:
+                  type: string
+              required:
+                - contact_id
+                - contact_list_id
+                - first_name
+                - last_name
+                - address_street
+                - address_city
+                - address_state
+                - address_zip
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated_date:
+                    type: string
+    delete:
+      summary: Delete Contact
+      tags:
+        - Contact API
+      security:
+        - basic: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: ID of the account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted_date:
+                    type: string
+tags:
+  - name: Account API
+  - name: Contact API
+  - name: Template API
+  - name: Send  API
+  - name: Campaign API
+  - name: LoginLinks  API
+  - name: Webhook API
+
+components:
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+
